@@ -1,0 +1,16 @@
+---
+
+- name: PACKAGE | Install vim
+  become: true
+  become_user: root
+  vars:
+    ansible_python_interpreter: /usr/bin/python
+  package:
+    name: vim
+
+- name: SHELL | Set vim as default editor
+  become: true
+  become_user: root
+  shell: 'update-alternatives --set {{ item }} /usr/bin/vim.basic'
+  with_items: [ editor, ex, rview, vi, view]
+  when: ansible_os_family ==  'Debian'
